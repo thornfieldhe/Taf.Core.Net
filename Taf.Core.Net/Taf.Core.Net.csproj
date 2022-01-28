@@ -8,15 +8,15 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <None Update="app.db" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
-    </ItemGroup>
-
-    <ItemGroup>
       <PackageReference Include="SqlSugar.IOC" Version="1.7.0" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\Identity\Identity.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="app.db" />
     </ItemGroup>
 
 </Project>
