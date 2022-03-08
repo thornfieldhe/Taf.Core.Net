@@ -30,28 +30,33 @@ public class IdentityUser : BaseEntity, IPassivable, ISoftDelete{
     /// <summary>
     /// 账号
     /// </summary>
-    [SugarColumn(ColumnName = "account_name", IsNullable = false,ColumnDataType = "nvarchar(100)")]
+    [SugarColumn(ColumnName = "account_name", ColumnDataType = "nvarchar(100)")]
+    [Required]
     public string AccountName{ get; set; }
 
-    [SugarColumn(ColumnName = "normalized_account_name", IsNullable = false,ColumnDataType = "nvarchar(100)")]
+    [SugarColumn(ColumnName = "normalized_account_name",ColumnDataType = "nvarchar(100)")]
+    [Required]
     public string NormalizedAccountName{ get; set; }
 
     /// <summary>
     /// 密码
     /// </summary>
-    [SugarColumn(ColumnName = "password", IsNullable = false,ColumnDataType = "nvarchar(100)")]
+    [SugarColumn(ColumnName = "password", ColumnDataType = "nvarchar(100)")]
+    [Required]
     public string Password{ get; set; }
 
     /// <summary>
     ///     盐值
     /// </summary>
-    [SugarColumn(ColumnName = "security_stamp", IsNullable = false, ColumnDataType = "char(36)")]
+    [SugarColumn(ColumnName = "security_stamp", ColumnDataType = "char(36)")]
+    [Required]
     public string SecurityStamp{ get; set; }
 
     /// <summary>
     /// 用户姓名
     /// </summary>
-    [SugarColumn(ColumnName = "userName", IsNullable = false,ColumnDataType = "nvarchar(100)")]
+    [SugarColumn(ColumnName = "userName",ColumnDataType = "nvarchar(100)")]
+    [Required]
     public string UserName{ get; set; }
 
     /// <summary>
@@ -66,7 +71,7 @@ public class IdentityUser : BaseEntity, IPassivable, ISoftDelete{
     /// <summary>
     /// 邮箱是否已验证
     /// </summary>
-    [SugarColumn(ColumnName = "is_email_confirmed", IsNullable = false)]
+    [SugarColumn(ColumnName = "is_email_confirmed")]
     public bool IsEmailConfirmed{ get; set; }
 
     /// <summary>
@@ -78,7 +83,7 @@ public class IdentityUser : BaseEntity, IPassivable, ISoftDelete{
     /// <summary>
     /// 手机号是否已验证
     /// </summary>
-    [SugarColumn(ColumnName = "is_phone_num_confirmed", IsNullable = false)]
+    [SugarColumn(ColumnName = "is_phone_num_confirmed")]
     public bool IsPhoneNumConfirmed{ get; set; }
 
     /// <summary>
@@ -90,7 +95,7 @@ public class IdentityUser : BaseEntity, IPassivable, ISoftDelete{
     /// <summary>
     /// 是否启用双因子验证
     /// </summary>
-    [SugarColumn(ColumnName = "is_two_factor_enabled", IsNullable = false)]
+    [SugarColumn(ColumnName = "is_two_factor_enabled")]
     public bool IsTwoFactorEnabled{ get; set; }
 
     /// <summary>

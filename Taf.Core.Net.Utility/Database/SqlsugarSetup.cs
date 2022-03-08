@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SqlSugar;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq.Dynamic.Core;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -32,7 +33,24 @@ public static class SqlsugarSetup{
         this IServiceCollection services, IConfiguration configuration,
         string                  dbName = "MainConnection"){
         var sqlSugar = new SqlSugarScope(
-            new ConnectionConfig(){ DbType = SqlSugar.DbType.MySql, ConnectionString = configuration.GetConnectionString(dbName), IsAutoCloseConnection = true, },
+            new ConnectionConfig(){
+                DbType                = SqlSugar.DbType.MySql
+              , ConnectionString      = configuration.GetConnectionString(dbName)
+              , IsAutoCloseConnection = true
+              , ConfigureExternalServices = new ConfigureExternalServices{
+                    EntityService = (c, p) => {
+                        // int?  decimal?这种 isnullable=true
+                        if(c.PropertyType.IsGenericType
+                        && c.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>)){
+                            p.IsNullable = true;
+                        } else if(c.PropertyType                            == typeof(string)
+                               && c.GetCustomAttribute<RequiredAttribute>() == null){
+                            //string类型如果没有Required isnullable=true
+                            p.IsNullable = true;
+                        }
+                    }
+                }
+            },
             db => {
                 //单例参数配置，所有上下文生效
                 db.Aop.OnLogExecuting = (sql, pars) => {

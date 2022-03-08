@@ -9,6 +9,7 @@
 
 using SqlSugar;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using Taf.Core.Net.Domain.Entities;
 using Taf.Core.Net.Utility.Entity;
 
@@ -29,13 +30,15 @@ public class IdentityRole : BaseEntity,  ISoftDelete{
     /// <summary>
     /// 角色名称
     /// </summary>
-    [SugarColumn(ColumnName = "name", IsNullable = false,ColumnDataType = "nvarchar(50)")] 
+    [SugarColumn(ColumnName = "name",ColumnDataType = "nvarchar(50)")] 
+    [Required]
     public string Name{ get; set; }
    
     /// <summary>
     /// 角色显示名称
     /// </summary>
-    [SugarColumn(ColumnName = "display_name", IsNullable = false,ColumnDataType = "nvarchar(50)")] 
+    [SugarColumn(ColumnName = "display_name", ColumnDataType = "nvarchar(50)")] 
+    [Required]
     public string DisplayName{ get; set; } 
     
     [SugarColumn(ColumnName = "is_deleted", IsNullable = false)]

@@ -23,10 +23,6 @@ namespace Taf.Core.Net.Tools.Services;
 
 using System;
 
-public interface IShortUrlService{
-    Task<string> ShortUrlGenerator(string url, DateTime? expiraionDate = null);
-}
-
 /// <summary>
 /// 短链服务
 /// </summary>

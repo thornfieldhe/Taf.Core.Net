@@ -14,8 +14,9 @@ using Taf.Core.Net.Web.Data;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-// builder.Services.AddRazorPages();
-// builder.Services.AddServerSideBlazor();
+builder.Services.AddRazorPages();
+builder.Services.AddServerSideBlazor();
+builder.Services.AddBootstrapBlazor();
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<WeatherForecastService>();
@@ -46,8 +47,8 @@ app.UseSwaggerUI(c =>
     c.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None); //折叠Api
     c.DefaultModelsExpandDepth(-1);                                     //去除Model 显示
 });
-// app.MapBlazorHub();
-// app.MapFallbackToPage("/_Host");
+app.MapBlazorHub();
+app.MapFallbackToPage("/_Host");
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();
