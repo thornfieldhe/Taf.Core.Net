@@ -20,7 +20,7 @@ public class HomeController : ControllerBase{
 
     [HttpGet]
     public async Task<string> Test(){
-      return await _shortUrlService.ShortUrlGenerator("www.baidu.com");
+      return await _shortUrlService.ShortUrlGenerator("https://www.baidu.com");
      
     }
 }

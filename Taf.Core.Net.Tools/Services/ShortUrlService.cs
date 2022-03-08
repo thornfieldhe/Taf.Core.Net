@@ -44,12 +44,12 @@ public class ShortUrlService : IShortUrlService{
         var base64    = hv.AsBase64String();
         var hashBytes = hv.Hash;
         var code      = mur.ComputeHash(hashBytes).AsHexString();
-        if(await _shortUrlRepository.CountAsync(r => r.ShortCode == code && (r.ExpiraionDate == null || r.ExpiraionDate > DateTime.UtcNow)) > 0){
+        if(await _shortUrlRepository.CountAsync(r => r.ShortCode == code && (r.ExpiraionDate.HasValue==null || r.ExpiraionDate > DateTime.UtcNow)) > 0){
             code = await ShortUrlGenerator($"{url}&d={DateTimeOffset.UtcNow.ToUnixTimeSeconds()}", DateTime.UtcNow);
         } else{
             await _shortUrlRepository.InsertAsync(new ShortUrl(){ OriginalUrl = url, ExpiraionDate = expiraionDate, ShortCode = code, TotalClickCount = 0 });
         }
 
-        return $"{head}/code/{code}";
+        return $"{head}/{code}";
     }
 }
