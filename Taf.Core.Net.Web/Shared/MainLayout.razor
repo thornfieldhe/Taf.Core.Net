@@ -3,17 +3,27 @@
 <PageTitle>Taf.Core.Net.Web</PageTitle>
 
 <div class="page">
-    <div class="sidebar">
-        <NavMenu/>
-    </div>
+    <Layout SideWidth="0" IsFullSide="true" ShowFooter="true" ShowCollapseBar="true" class="layout-menu-demo"
+                   Menus="IconSideMenuItems">
+        <Header>
+              <div class="menu-demo-header">
+                        我是网站标题
+                    </div>
+        </Header>
+        <Side>
+            <div class="layout-banner">
+                <img class="layout-logo" src="icons/girl.png"/>
+                <div class="layout-title">
+                    <span>IKE数据管理中心</span>
+                </div>
+            </div>
+        </Side>
+        <Main>
+            <div  style="padding: 10rem 1rem;">@Body</div>
 
-    <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-        </div>
-
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
+        </Main>
+        <Footer>
+            <div class="text-center footer">Footer</div>
+        </Footer>
+    </Layout>
 </div>
