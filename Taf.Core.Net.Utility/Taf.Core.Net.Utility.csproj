@@ -9,6 +9,9 @@
     <ItemGroup>
       <PackageReference Include="Castle.Core" Version="4.3.1" />
       <PackageReference Include="FreeRedis" Version="0.3.7" />
+      <PackageReference Include="Mapster" Version="7.3.0" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+      <PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="6.0.0" />
       <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
       <PackageReference Include="NewId" Version="3.0.3" />
       <PackageReference Include="SqlSugarCore" Version="5.0.5.5-preview-01" />

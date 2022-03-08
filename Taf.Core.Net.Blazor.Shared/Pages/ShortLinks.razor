@@ -1,0 +1,11 @@
+﻿@page "links"
+@attribute [TabItemOption(Text = "短链")]
+<PageTitle>短链</PageTitle>
+<Table TItem="Foo" IsPagination="true" PageItemsSource="ShortLinkSources"
+       IsStriped="true" IsBordered="true" ShowSkeleton="true" IsMultipleSelect="true"
+       ShowToolbar="true" ShowSearch="true" ShowExtendButtons="true"
+       AutoGenerateColumns="true" EditMode="EditMode.EditForm">
+    <TableColumns>
+        <TableColumn @bind-Field="@context.Hobby" Items="GetAllList(context)" />
+    </TableColumns>
+</Table>

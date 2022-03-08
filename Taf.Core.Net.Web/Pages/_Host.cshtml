@@ -1,8 +1,9 @@
 ﻿@page "/"
-@namespace Taf.Core.Net.Web.Pages
+@namespace Taf.Core.Net.Blazor.Server.Pages
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using Taf.Core.Net.Blazor.Shared
 @{
     Layout = "_Layout";
 }
 
-<component type="typeof(App)" render-mode="ServerPrerendered"/>
+<component type="typeof(App)" render-mode="ServerPrerendered" />

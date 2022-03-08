@@ -17,12 +17,67 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Taf.Core.Net.Blazor.Shared\Taf.Core.Net.Blazor.Shared.csproj" />
       <ProjectReference Include="..\Taf.Core.Net.Identity\Taf.Core.Net.Identity.csproj" />
       <ProjectReference Include="..\Taf.Core.Net.Tools\Taf.Core.Net.Tools.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <Content Remove="wwwroot\favicon.ico" />
+      <_ContentIncludedByDefault Remove="Pages\Error.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\_Host.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\_Layout.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\Counter.razor" />
+      <_ContentIncludedByDefault Remove="Pages\FetchData.razor" />
+      <_ContentIncludedByDefault Remove="Pages\Index.razor" />
+      <_ContentIncludedByDefault Remove="wwwroot\icons\girl.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\css\motronic.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\css\site.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\favicon.ico" />
+      <_ContentIncludedByDefault Remove="wwwroot\favicon.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\Argo-C.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\Argo.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\avatars\150-1.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\avatars\150-10.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\avatars\150-11.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\avatars\150-12.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\avatars\150-13.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\avatars\150-14.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\avatars\150-15.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\avatars\150-16.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\avatars\150-17.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\avatars\150-18.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\avatars\150-19.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\avatars\150-2.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\avatars\150-20.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\avatars\150-21.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\avatars\150-22.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\avatars\150-23.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\avatars\150-24.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\avatars\150-3.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\avatars\150-4.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\avatars\150-5.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\avatars\150-6.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\avatars\150-7.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\avatars\150-8.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\avatars\150-9.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\brand.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\libs\font-awesome\css\font-awesome.min.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\libs\font-awesome\fonts\fontawesome-webfont.eot" />
+      <_ContentIncludedByDefault Remove="wwwroot\libs\font-awesome\fonts\fontawesome-webfont.svg" />
+      <_ContentIncludedByDefault Remove="wwwroot\libs\font-awesome\fonts\fontawesome-webfont.ttf" />
+      <_ContentIncludedByDefault Remove="wwwroot\libs\font-awesome\fonts\fontawesome-webfont.woff" />
+      <_ContentIncludedByDefault Remove="wwwroot\libs\font-awesome\fonts\fontawesome-webfont.woff2" />
+      <_ContentIncludedByDefault Remove="wwwroot\libs\font-awesome\fonts\FontAwesome.otf" />
+      <_ContentIncludedByDefault Remove="Pages\TableDemo.razor" />
+      <_ContentIncludedByDefault Remove="Pages\Users.razor" />
+      <_ContentIncludedByDefault Remove="Locales\en.json" />
+      <_ContentIncludedByDefault Remove="Locales\zh.json" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <UpToDateCheckInput Remove="Pages\Counter.razor" />
+      <UpToDateCheckInput Remove="Pages\FetchData.razor" />
+      <UpToDateCheckInput Remove="Pages\Index.razor" />
     </ItemGroup>
 
 

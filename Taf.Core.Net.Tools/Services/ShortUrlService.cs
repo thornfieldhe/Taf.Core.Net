@@ -14,6 +14,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Taf.Core.Net.Tools.Domain;
 using Taf.Core.Net.Utility.Database;
+using Taf.Core.Net.Utility.Paging;
 
 // 何翔华
 // Taf.Core.Net.Tools
@@ -47,5 +48,10 @@ public class ShortUrlService : IShortUrlService{
         }
 
         return $"{head}/{code}";
+    }
+    
+    public async Task<PagedResultDto<ShortUrlListDto>> GetAllList(BaseQueryRequestDto query){
+        return await _shortUrlRepository.Page<ShortUrlListDto>(query, (s) => s.OriginalUrl.Contains(query.KeyWord)
+                                                                        || s.ShortCode.Contains(query.KeyWord));
     }
 }

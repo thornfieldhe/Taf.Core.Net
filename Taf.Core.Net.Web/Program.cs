@@ -6,10 +6,10 @@ using SqlSugar.IOC;
 using System.Linq.Dynamic.Core;
 using System.Linq.Expressions;
 using System.Reflection;
+using Taf.Core.Net.Blazor.Shared.Data;
 using Taf.Core.Net.Tools.Domain;
 using Taf.Core.Net.Tools.Services;
 using Taf.Core.Net.Utility.Database;
-using Taf.Core.Net.Web.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,7 +21,6 @@ builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddSqlsugarSetup(builder.Configuration,"MainConnection");
-
 builder.Services.AddSingleton<IRepository<ShortUrl,Guid>,Repository<ShortUrl,Guid>>();
 builder.Services.AddSingleton<IShortUrlService,ShortUrlService>();
 
