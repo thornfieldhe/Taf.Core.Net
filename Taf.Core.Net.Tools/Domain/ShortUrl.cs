@@ -11,12 +11,24 @@ namespace Taf.Core.Net.Tools.Domain;
 /// </summary>
 [SugarTable("tool_short_urls")]
 public class ShortUrl : BaseEntity{
+
+    private string _originalUrl;
     /// <summary>
     /// 原始地址
     /// </summary>
     [SugarColumn(ColumnName = "original_url", ColumnDataType = "nvarchar(2000)")]
     [Required]
-    public string OriginalUrl{ get; set; }
+    public string OriginalUrl{
+        get => _originalUrl;
+        set{
+            NormalizedOriginalUrl = value.ToUpper();
+            _originalUrl          = value;
+        }
+    }
+    
+    [SugarColumn(ColumnName = "normalized_original_url",ColumnDataType = "nvarchar(2000)")]
+    [Required]
+    public string NormalizedOriginalUrl{ get; set; }
 
     /// <summary>
     /// 短码

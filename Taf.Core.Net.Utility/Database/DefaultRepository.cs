@@ -27,8 +27,8 @@ public interface IRepository<T, TK> where T : class, IEntity<TK>, new(){
     Task<T>         FindAsync(TK                         id);
     Task<int>       CountAsync(Expression<Func<T, bool>> whereExpression);
     Task<bool>      InsertAsync(T                        item);
-    
-    Task<PagedResultDto<TR>> Page<TR>(PagedAndSortedResultRequestDto query, Expression<Func<T, bool>> whereExpression) ;
+
+    Task<PagedResultDto<TR>> Page<TR>(PagedAndSortedResultRequestDto query, Expression<Func<T, bool>> whereExpression);
 }
 
 /// <summary>
@@ -45,19 +45,14 @@ public class Repository<T, TK> : IRepository<T, TK> where T : class, IEntity<TK>
 
     public async Task<int> CountAsync(Expression<Func<T, bool>> whereExpression) => await _db.Queryable<T>().CountAsync(whereExpression);
 
-    public async Task<bool> InsertAsync(T item) => await _db.Insertable<T>(item).ExecuteCommandAsync()==1;
-    
-    public async Task<PagedResultDto<TR>> Page<TR>(PagedAndSortedResultRequestDto query, Expression<Func<T, bool>> whereExpression) {
+    public async Task<bool> InsertAsync(T item) => await _db.Insertable<T>(item).ExecuteCommandAsync() == 1;
+
+    public async Task<PagedResultDto<TR>> Page<TR>(PagedAndSortedResultRequestDto query, Expression<Func<T, bool>> whereExpression){
         RefAsync<int> total = 0;
-       var list= (await _db.Queryable<T>().Where(whereExpression).ToPageListAsync(query.PageIndex, query.PageSize,  total))
-           .Select(r=>r.Adapt<TR>()).ToList();
+        var list = (await _db.Queryable<T>().Where(whereExpression).OrderBy(string.IsNullOrEmpty(query.Sorting) ? "id" : query.Sorting)
+                             .ToPageListAsync(query.PageIndex, query.PageSize, total))
+                  .Select(r => r.Adapt<TR>()).ToList();
 
-       return new PagedResultDto<TR>(total, list);
+        return new PagedResultDto<TR>(total, list);
     }
-
 }
-
-
-
-
-

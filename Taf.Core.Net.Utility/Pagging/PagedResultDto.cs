@@ -25,7 +25,7 @@ using System;
 public class PagedResultDto<T> : ListResultDto<T>, IPagedResult<T>
 {
     /// <inheritdoc />
-    public long TotalCount{ get; set; } //TODO: Can be a long value..?
+    public int TotalCount{ get; set; } //TODO: Can be a long value..?
 
     /// <summary>
     /// Creates a new <see cref="PagedResultDto{T}"/> object.
@@ -40,7 +40,7 @@ public class PagedResultDto<T> : ListResultDto<T>, IPagedResult<T>
     /// </summary>
     /// <param name="totalCount">Total count of Items</param>
     /// <param name="items">List of items in current page</param>
-    public PagedResultDto(long totalCount, IReadOnlyList<T> items)
+    public PagedResultDto(int totalCount, IReadOnlyList<T> items)
         : base(items) =>
         TotalCount = totalCount;
 }

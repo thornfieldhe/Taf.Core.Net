@@ -21,6 +21,6 @@ namespace Taf.Core.Net.Utility.Paging;
 /// </summary>
 public class PagedResultRequestDto: LimitedResultRequestDto, IPagedResultRequest
 {
-    [Range(0, int.MaxValue)]
+    [Range(1, int.MaxValue)]
     public virtual int PageIndex{ get; set; }
 }

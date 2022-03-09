@@ -30,7 +30,7 @@ public class LimitedResultRequestDto : ILimitedResultRequest, IValidatableObject
     /// <summary>
     /// Default value: 10.
     /// </summary>
-    public static int DefaultMaxResultCount{ get; set; } = 10;
+    public static int DefaultMaxResultCount{ get; set; } = 20;
 
     /// <summary>
     /// Maximum possible value of the <see cref="PageSize"/>.

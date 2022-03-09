@@ -1,11 +1,15 @@
-﻿@page "links"
-@attribute [TabItemOption(Text = "短链")]
-<PageTitle>短链</PageTitle>
-<Table TItem="Foo" IsPagination="true" PageItemsSource="ShortLinkSources"
-       IsStriped="true" IsBordered="true" ShowSkeleton="true" IsMultipleSelect="true"
-       ShowToolbar="true" ShowSearch="true" ShowExtendButtons="true"
-       AutoGenerateColumns="true" EditMode="EditMode.EditForm">
-    <TableColumns>
-        <TableColumn @bind-Field="@context.Hobby" Items="GetAllList(context)" />
-    </TableColumns>
-</Table>
+﻿@* @page "/links" *@
+@* @using Taf.Core.Net.Tools.Domain *@
+@* @attribute [TabItemOption(Text = "短链")] *@
+@* <PageTitle>短链</PageTitle> *@
+@* <Table TItem="ShortUrlListDto" IsPagination="true" PageItemsSource="PageItemsSource" *@
+@*        IsStriped="true" IsBordered="true" ShowSkeleton="true" IsMultipleSelect="true" *@
+@*        ShowToolbar="true" ShowSearch="true" OnQueryAsync="@OnSearchQueryAsync"  *@
+@*        AutoGenerateColumns="true" EditMode="EditMode.EditForm"> *@
+@*     <TableColumns> *@
+@*        <TableColumn @bind-Field="@context.ShortCode"  Text="短码" sor/> *@
+@*        <TableColumn @bind-Field="@context.OriginalUrl"  Text="原始Url地址"/> *@
+@*        <TableColumn @bind-Field="@context.TotalClickCount" Width="180" Text="点击次数"/> *@
+@*        <TableColumn @bind-Field="@context.ExpiraionDate" Width="180" Text="过期时间"/> *@
+@*     </TableColumns> *@
+@* </Table> *@
