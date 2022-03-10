@@ -6,6 +6,12 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <AssemblyName>EfootprintV3.Migration</AssemblyName>
+        <RootNamespace>EfootprintV3.Migration</RootNamespace>
+        <PackageId>EfootprintV3.Migration</PackageId>
+        <Authors>thornfield</Authors>
+        <Company>EfootprintV3.Migration</Company>
+        <Product>EfootprintV3.Migration</Product>
     </PropertyGroup>
 
     <ItemGroup>
@@ -14,6 +20,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\EfootprintV3.Database\EfootprintV3.Database.csproj" />
       <ProjectReference Include="..\Taf.Core.Net.Identity\Taf.Core.Net.Identity.csproj" />
       <ProjectReference Include="..\Taf.Core.Net.Tools\Taf.Core.Net.Tools.csproj" />
     </ItemGroup>

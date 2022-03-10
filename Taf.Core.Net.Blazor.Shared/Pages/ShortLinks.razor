@@ -1,15 +1,16 @@
-﻿@* @page "/links" *@
-@* @using Taf.Core.Net.Tools.Domain *@
-@* @attribute [TabItemOption(Text = "短链")] *@
-@* <PageTitle>短链</PageTitle> *@
-@* <Table TItem="ShortUrlListDto" IsPagination="true" PageItemsSource="PageItemsSource" *@
-@*        IsStriped="true" IsBordered="true" ShowSkeleton="true" IsMultipleSelect="true" *@
-@*        ShowToolbar="true" ShowSearch="true" OnQueryAsync="@OnSearchQueryAsync"  *@
-@*        AutoGenerateColumns="true" EditMode="EditMode.EditForm"> *@
-@*     <TableColumns> *@
-@*        <TableColumn @bind-Field="@context.ShortCode"  Text="短码" sor/> *@
-@*        <TableColumn @bind-Field="@context.OriginalUrl"  Text="原始Url地址"/> *@
-@*        <TableColumn @bind-Field="@context.TotalClickCount" Width="180" Text="点击次数"/> *@
-@*        <TableColumn @bind-Field="@context.ExpiraionDate" Width="180" Text="过期时间"/> *@
-@*     </TableColumns> *@
-@* </Table> *@
+﻿@page "/links"
+@using Taf.Core.Net.Tools.Domain.Share
+@attribute [TabItemOption(Text = "短链")]
+<PageTitle>短链</PageTitle>
+<Table TItem="ShortUrlListDto" IsPagination="true" PageItemsSource="PageItemsSource"
+       IsStriped="true" IsBordered="true" ShowSkeleton="true" IsMultipleSelect="true" 
+       ShowToolbar="true" ShowSearch="true" ShowLineNo="true" ShowAddButton="false" ShowEditButton="false" ShowDeleteButton="false" ShowAdvancedSearch="false"
+       OnQueryAsync="@OnSearchQueryAsync">
+    <TableColumns>
+        <TableColumn @bind-Field="@context.ShortCode" Text="短码" Width="100"/>
+        <TableColumn @bind-Field="@context.OriginalUrl" Text="原始Url地址"/>
+        <TableColumn @bind-Field="@context.TotalClickCount" Width="80" Text="点击次数"/>
+        <TableColumn @bind-Field="@context.ExpiraionDate" Width="130" Text="过期时间"/>
+        <TableColumn @bind-Field="@context.CreationTime" Width="130" Text="创建时间"/>
+    </TableColumns>
+</Table>

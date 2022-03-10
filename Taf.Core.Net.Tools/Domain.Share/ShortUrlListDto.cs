@@ -1,17 +1,17 @@
 ﻿using SqlSugar;
 using System.ComponentModel.DataAnnotations;
 using Taf.Core.Net.Domain.Entities;
-using Taf.Core.Net.Utility.Entity;
+using Taf.Core.Net.Utility;
 using Taf.Core.Utility;
 
-namespace Taf.Core.Net.Tools.Domain;
+namespace Taf.Core.Net.Tools.Domain.Share;
 
 /// <summary>
 /// 短链
 /// </summary>
-public record ShortUrlListDto {
+public record ShortUrlListDto{
     public Guid Id{ get; set; }
-    
+
     /// <summary>
     /// 原始地址
     /// </summary>
@@ -31,4 +31,6 @@ public record ShortUrlListDto {
     /// 短链点击次数
     /// </summary>
     public long TotalClickCount{ get; set; }
+
+    public DateTime CreationTime{ get; set; }
 }

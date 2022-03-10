@@ -2,7 +2,7 @@
 // Taf.Core.Net.Utility
 // IPassivable.cs
 
-namespace Taf.Core.Net.Utility.Entity;
+namespace Taf.Core.Net.Utility;
 
 /// <summary>
 /// This interface is used to make an entity active/passive.

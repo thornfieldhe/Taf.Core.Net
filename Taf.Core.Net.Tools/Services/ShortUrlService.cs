@@ -13,6 +13,7 @@ using System.Data.HashFunction.MurmurHash;
 using System.Text;
 using System.Text.RegularExpressions;
 using Taf.Core.Net.Tools.Domain;
+using Taf.Core.Net.Tools.Domain.Share;
 using Taf.Core.Net.Utility.Database;
 using Taf.Core.Net.Utility.Paging;
 
@@ -28,8 +29,8 @@ using System;
 /// 短链服务
 /// </summary>
 public class ShortUrlService : IShortUrlService{
-    private readonly IRepository<ShortUrl, Guid> _shortUrlRepository;
-    public ShortUrlService(IRepository<ShortUrl, Guid> shortUrlRepository) => _shortUrlRepository = shortUrlRepository;
+    private readonly IRepository<ShortUrl> _shortUrlRepository;
+    public ShortUrlService(IRepository<ShortUrl> shortUrlRepository) => _shortUrlRepository = shortUrlRepository;
 
     public async Task<string> ShortUrlGenerator(string url, DateTime? expiraionDate = null){
         var    head     = Regex.Match(url, @"(\w+:\/\/)([^/:]+)(:\d*)?");
@@ -41,17 +42,18 @@ public class ShortUrlService : IShortUrlService{
         var base64    = hv.AsBase64String();
         var hashBytes = hv.Hash;
         var code      = mur.ComputeHash(hashBytes).AsHexString();
-        if(await _shortUrlRepository.CountAsync(r => r.ShortCode == code && (r.ExpiraionDate.HasValue==null || r.ExpiraionDate > DateTime.UtcNow)) > 0){
+        if(await _shortUrlRepository.CountAsync(r => r.ShortCode == code && (r.ExpiraionDate == null || r.ExpiraionDate > DateTime.UtcNow)) > 0){
             code = await ShortUrlGenerator($"{url}&d={DateTimeOffset.UtcNow.ToUnixTimeSeconds()}", DateTime.UtcNow);
         } else{
             await _shortUrlRepository.InsertAsync(new ShortUrl(){ OriginalUrl = url, ExpiraionDate = expiraionDate, ShortCode = code, TotalClickCount = 0 });
         }
 
-        return $"{head}/{code}";
+        return $"{head}/code/{code}";
     }
-    
+
     public async Task<PagedResultDto<ShortUrlListDto>> GetAllList(BaseQueryRequestDto query){
-        return await _shortUrlRepository.Page<ShortUrlListDto>(query, (s) => s.OriginalUrl.Contains(query.KeyWord)
-                                                                        || s.ShortCode.Contains(query.KeyWord));
+        return await _shortUrlRepository.Page<ShortUrlListDto>(query, (s) => string.IsNullOrEmpty(query.KeyWord)
+                                                                          || s.OriginalUrl.Contains(query.KeyWord)
+                                                                          || s.ShortCode.Contains(query.KeyWord));
     }
 }

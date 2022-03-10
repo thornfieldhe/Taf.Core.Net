@@ -3,6 +3,7 @@
 // IShortUrlService.cs
 
 using Taf.Core.Net.Tools.Domain;
+using Taf.Core.Net.Tools.Domain.Share;
 using Taf.Core.Net.Utility.Paging;
 
 namespace Taf.Core.Net.Tools.Services;

@@ -11,7 +11,7 @@ using SqlSugar;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Taf.Core.Net.Domain.Entities;
-using Taf.Core.Net.Utility.Entity;
+using Taf.Core.Net.Utility;
 
 // 何翔华
 // Taf.Core.Net.Identity

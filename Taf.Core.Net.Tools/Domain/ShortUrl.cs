@@ -1,7 +1,7 @@
 ﻿using SqlSugar;
 using System.ComponentModel.DataAnnotations;
 using Taf.Core.Net.Domain.Entities;
-using Taf.Core.Net.Utility.Entity;
+using Taf.Core.Net.Utility;
 using Taf.Core.Utility;
 
 namespace Taf.Core.Net.Tools.Domain;

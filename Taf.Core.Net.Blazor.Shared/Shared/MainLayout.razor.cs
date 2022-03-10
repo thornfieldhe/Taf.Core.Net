@@ -38,7 +38,7 @@ namespace Taf.Core.Net.Blazor.Shared.Shared{
                     Text = "应用"
                   , Icon = "fa fa-fw fa-html5"
                   , Items = new[]{
-                        new MenuItem(){ Text = "应用", Icon = "fa fa-fw fa-html5", Url = "apps" }, new MenuItem(){ Text = "客户端", Icon = "fa fa-fw fa-users", Url = "users" }
+                        new MenuItem(){ Text = "应用", Icon = "fa fa-fw fa-html5", Url = "/clients" }, new MenuItem(){ Text = "客户端", Icon = "fa fa-fw fa-users", Url = "users" }
                     }
                 }
               , new MenuItem(){

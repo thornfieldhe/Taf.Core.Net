@@ -18,7 +18,7 @@ using Taf.Core.Net.Domain.Entities;
 // Taf.Core.Net.Utility
 // Entity.cs
 
-namespace Taf.Core.Net.Utility.Entity;
+namespace Taf.Core.Net.Utility;
 
 using System;
 
@@ -50,10 +50,10 @@ public abstract class Entity : IEntity,IHasConcurrencyStamp,IHasAuditedTime
 
 /// <inheritdoc cref="IEntity{TKey}" />
 [Serializable]
-public abstract class Entity<TKey> : Entity, IEntity<TKey>
+public abstract class Entity<TKey> : Entity, IEntity<TKey> where TKey:new()
 {
     [SugarColumn(IsPrimaryKey = true,ColumnName = "id")]
-    public virtual TKey Id{ get; protected set; }
+    public virtual TKey Id{ get;  set; }
 
     protected Entity()
     {
@@ -92,5 +92,5 @@ public class BaseEntity:Entity<Guid>{
     }
 
     [SugarColumn(IsPrimaryKey = true,ColumnName = "id")]
-    public override Guid Id{ get; protected set; }
+    public override Guid Id{ get;  set; }
 }
