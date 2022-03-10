@@ -11,6 +11,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Database" />
       <Folder Include="Domain.Shared" />
       <Folder Include="Services" />
     </ItemGroup>

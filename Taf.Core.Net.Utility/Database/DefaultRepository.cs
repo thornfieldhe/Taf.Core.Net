@@ -28,11 +28,13 @@ public interface IRepository<T> where T : BaseEntity, new(){
     Task<T>         FindAsync(Guid id);
 
     Task<T>   FirstOrDefaultAsync(Expression<Func<T, bool>> whereExpression);
-    Task<int> CountAsync(Expression<Func<T, bool>>     whereExpression);
+    Task<int> CountAsync(Expression<Func<T, bool>>          whereExpression);
 
     Task<bool> InsertAsync(T item);
     Task<bool> UpdateAsync(T item);
     Task<bool> DeleteAsync(T item);
+
+    Task DeleteAllAsync(Expression<Func<T, bool>> whereExpression);
 
     Task<PagedResultDto<TR>> Page<TR>(PagedAndSortedResultRequestDto query, Expression<Func<T, bool>> whereExpression);
 }
@@ -51,7 +53,7 @@ public class Repository<T> : IRepository<T> where T : BaseEntity, new(){
 
 #region query
 
-    public virtual async Task<T> FindAsync(Guid                           id)              => await _db.Queryable<T>().InSingleAsync(id);
+    public virtual async Task<T> FindAsync(Guid                                id)              => await _db.Queryable<T>().InSingleAsync(id);
     public virtual async Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> whereExpression) => await _db.Queryable<T>().FirstAsync(whereExpression);
 
     public virtual async Task<PagedResultDto<TR>> Page<TR>(PagedAndSortedResultRequestDto query, Expression<Func<T, bool>> whereExpression){
@@ -90,6 +92,12 @@ public class Repository<T> : IRepository<T> where T : BaseEntity, new(){
         return (await _db.Updateable<T>(item).Where(i => i.Id == item.Id && i.ConcurrencyStamp == concurrencyStamp).UpdateColumns(it => new{ it.IsDeleted })
                          .ExecuteCommandAsync())
             == 1;
+    }
+
+    public async Task DeleteAllAsync(Expression<Func<T, bool>> whereExpression){
+        var item = new T(){ IsDeleted = true };
+        await _db.Updateable<T>(item).Where(whereExpression).UpdateColumns(it => new{ it.IsDeleted })
+                 .ExecuteCommandAsync();
     }
 
 #endregion

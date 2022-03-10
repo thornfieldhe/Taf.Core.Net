@@ -23,6 +23,7 @@ builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddSqlsugarSetup(builder.Configuration,"MainConnection");
 builder.Services.AddSingleton<IRepository<ShortUrl>,Repository<ShortUrl>>();
 builder.Services.AddSingleton<IRepository<SignClient>,Repository<SignClient>>();
+builder.Services.AddSingleton<IRepository<SignUser>,Repository<SignUser>>();
 builder.Services.AddSingleton<IShortUrlService,ShortUrlService>();
 builder.Services.AddSingleton<ISignService,SignService>();
 

@@ -10,6 +10,7 @@
 using Mapster;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Text.RegularExpressions;
 using Taf.Core.Net.Tools.Domain;
 using Taf.Core.Net.Tools.Domain.Share;
 using Taf.Core.Net.Utility.Database;
@@ -25,23 +26,18 @@ namespace Taf.Core.Net.Tools.Services;
 
 using System;
 
-public interface ISignService{
-    Task<bool>   SignGenerator([NotNull] string name);
-    Task<bool>   SaveClient(SignClientDto       item);
-    Task<bool>   Delete(SignClientDto           dto);
-    Task<string> GetAppKeyById([NotNull] string appId);
-
-    Task<PagedResultDto<SignClientDto>> GetAllList(BaseQueryRequestDto query);
-}
-
 /// <summary>
 /// 签名服务
 /// </summary>
 public class SignService : ISignService{
     private readonly IRepository<SignClient> _signClientRepository;
+    private readonly IRepository<SignUser>   _signUserRepository;
 
-    public SignService(IRepository<SignClient> signClientRepository){
+    public SignService(
+        IRepository<SignClient> signClientRepository
+      , IRepository<SignUser>   signUserRepository){
         _signClientRepository = signClientRepository;
+        _signUserRepository   = signUserRepository;
     }
 
     public async Task<bool> SignGenerator([NotNull] string name) =>
@@ -49,6 +45,9 @@ public class SignService : ISignService{
 
     public async Task<bool> SaveClient(SignClientDto item) =>
         await _signClientRepository.UpdateAsync(new SignClient(){ Name = item.Name, Id = item.Id, ConcurrencyStamp = item.ConcurrencyStamp });
+
+    public async Task<PagedResultDto<SignUserDto>> GetAllUserList(BaseQueryRequestDto query) => await _signUserRepository.Page<SignUserDto>(query, (s) => string.IsNullOrEmpty(query.KeyWord)
+     || s.AppId==query.KeyWord.Trim());
 
     public async Task<PagedResultDto<SignClientDto>> GetAllList(BaseQueryRequestDto query){
         return await _signClientRepository.Page<SignClientDto>(query, (s) => string.IsNullOrEmpty(query.KeyWord)
@@ -59,6 +58,17 @@ public class SignService : ISignService{
     public async Task<string?> GetAppKeyById([NotNull] string appId){
         return (await _signClientRepository.FirstOrDefaultAsync(r => r.AppId == appId.Trim()))?.AppKey;
     }
+
+    public async Task<bool> CreateUser([NotNull] string appId, [NotNull] string userId){
+        if((await _signUserRepository.CountAsync(r => r.AppId == appId.Trim() && r.UserId == userId.Trim())) == 0){
+            return await _signUserRepository.InsertAsync(new SignUser(){ AppId = appId, UserId = userId });
+        }
+
+        return true;
+    }
+
+    public async Task<bool> DeleteUser(SignUserDto user) => await _signUserRepository.DeleteAsync(new SignUser(){ Id = user.Id, ConcurrencyStamp = user.ConcurrencyStamp });
+    public async Task DeleteAllUsers([NotNull]string appId) => await _signUserRepository.DeleteAllAsync(r=>r.AppId==appId.Trim());
 
     public async Task<bool> Delete(SignClientDto dto) => await _signClientRepository.DeleteAsync(new SignClient(){ Id = dto.Id, ConcurrencyStamp = dto.ConcurrencyStamp });
 }

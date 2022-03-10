@@ -26,7 +26,7 @@ using System;
 [SugarTable("tool_sign_clients",IsDisabledUpdateAll=true)]
 public class SignClient : BaseEntity{
     /// <summary>
-    /// 客户端Id
+    /// 应用Id
     /// </summary>
     [Required]
     [SugarColumn( ColumnName = "app_id", ColumnDataType = "char(36)", IndexGroupNameList = new string[]{ "app_id" })]

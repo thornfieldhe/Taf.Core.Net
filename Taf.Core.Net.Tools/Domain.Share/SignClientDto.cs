@@ -19,13 +19,13 @@ namespace Taf.Core.Net.Tools.Domain.Share;
 using System;
 
 /// <summary>
-///  签名客户端对象
+///  签名应用对象
 /// </summary>
 public class SignClientDto{
     public Guid Id{ get; set; }
     
     /// <summary>
-    /// 客户端Id
+    /// 应用Id
     /// </summary>
     [Required]
     [Display(Name = "AppId")]

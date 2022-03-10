@@ -28,7 +28,7 @@ using System;
 /// <summary>
 /// Summary
 /// </summary>
-public partial class Clients{
+public partial class ClientUsers{
     [Inject]
     public ISignService SignService{ get; set; }
 
@@ -37,17 +37,18 @@ public partial class Clients{
     /// </summary>
     private static IEnumerable<int> PageItemsSource => new int[]{ 20, 40 };
 
-    private Task<PagedResultDto<SignClientDto>> GetAllList(string key = null) => SignService.GetAllList(new BaseQueryRequestDto(){ KeyWord = key });
+    private Task<PagedResultDto<SignUserDto>> GetAllList(string key = null) => SignService.GetAllUserList(new BaseQueryRequestDto(){ KeyWord = key });
 
-    private async Task<PagedResultDto<SignClientDto>> QueryAll(string keyWord, string shorting, int index) =>
-        await SignService.GetAllList(new BaseQueryRequestDto(){ KeyWord = keyWord, Sorting = shorting, PageIndex = index });
 
-    private async Task<QueryData<SignClientDto>> OnSearchQueryAsync(QueryPageOptions options){
+    private async Task<PagedResultDto<SignUserDto>> QueryAll(string keyWord, string shorting, int index) =>
+        await SignService.GetAllUserList(new BaseQueryRequestDto(){ KeyWord = keyWord, Sorting = shorting, PageIndex = index });
+
+    private async Task<QueryData<SignUserDto>> OnSearchQueryAsync(QueryPageOptions options){
         var list = await QueryAll(options.SearchText, options.SortName, options.PageIndex);
 
         // 设置记录总数
         var total = list.TotalCount;
-        return new QueryData<SignClientDto>(){
+        return new QueryData<SignUserDto>(){
             Items      = list.Items
           , TotalCount = list.TotalCount
           , IsSorted   = true
@@ -59,19 +60,8 @@ public partial class Clients{
     private async Task<bool> OnDeleteAsync(IEnumerable<SignClientDto> arg){
         foreach(var item in arg){
             await SignService.Delete(new SignClientDto(){ Id = item.Id, ConcurrencyStamp = item.ConcurrencyStamp });
-            await SignService.DeleteAllUsers(item.AppId);
         }
 
         return true;
-    }
-
-    private Task<SignClientDto> OnAddAsync() => Task.FromResult(new SignClientDto());
-
-    private async Task<bool> OnSaveAsync(SignClientDto item, ItemChangedType changedType){
-        if(changedType == ItemChangedType.Add){
-            return await SignService.SignGenerator(item.Name);
-        }
-
-        return false;
     }
 }

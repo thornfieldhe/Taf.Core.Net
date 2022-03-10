@@ -38,7 +38,7 @@ namespace Taf.Core.Net.Blazor.Shared.Shared{
                     Text = "应用"
                   , Icon = "fa fa-fw fa-html5"
                   , Items = new[]{
-                        new MenuItem(){ Text = "应用", Icon = "fa fa-fw fa-html5", Url = "/clients" }, new MenuItem(){ Text = "客户端", Icon = "fa fa-fw fa-users", Url = "users" }
+                        new MenuItem(){ Text = "应用", Icon = "fa fa-fw fa-html5", Url = "/clients" }, new MenuItem(){ Text = "终端用户", Icon = "fa fa-fw fa-users", Url = "/clientUsers" }
                     }
                 }
               , new MenuItem(){
@@ -50,7 +50,7 @@ namespace Taf.Core.Net.Blazor.Shared.Shared{
                     }
                 }
               , new(){ Text          = "工具", Icon        = "fa fa-fw fa-database", Items     = new[]{ new MenuItem(){ Text = "短链", Icon = "fa fa-fw fa-link", Url = "/links" } } }
-              , new(){ Text          = "系统", Icon        = "fa fa-fw fa-desktop", Items      = new[]{ new MenuItem(){ Text = "用户", Icon = "fa fa-fw user-o", Url  = "/links" } } }
+              , new(){ Text          = "系统", Icon        = "fa fa-fw fa-desktop", Items      = new[]{ new MenuItem(){ Text = "用户", Icon = "fa fa-fw user-o", Url  = "users" } } }
               , new MenuItem(){ Text = "Table", Icon     = "fa fa-fw fa-table", Url          = "table" }
               , new MenuItem(){ Text = "Counter", Icon   = "fa fa-fw fa-check-square-o", Url = "/counter" }
               , new MenuItem(){ Text = "FetchData", Icon = "fa fa-fw fa-database", Url       = "fetchdata" }

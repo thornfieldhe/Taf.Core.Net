@@ -44,12 +44,13 @@ public class SignatureController : ControllerBase{
         }
 
         var shortUrl = new ShorUrlCreateDto(){
-            Callback  = callback
-          , Source    = SignClientSource.Aliyun
-          , AppId     = appId.Replace("-","")
-          , SourceUrl = HttpContext.Request.GetEncodedUrl()
-          , TargetUrl = _configuration["ShortCode:Prefix"]
-          , UserId    = userId
+            Callback      = callback
+          , Source        = SignClientSource.Aliyun
+          , AppId         = appId.Replace("-", "")
+          , SourceUrl     = HttpContext.Request.GetEncodedUrl()
+          , TargetUrl     = _configuration["ShortCode:Prefix"]
+          , UserId        = userId
+          , ExpiraionDate = DateTime.Now.AddHours(1)
         };
 
         var appKey = await _signService.GetAppKeyById(appId.Trim());
@@ -67,6 +68,10 @@ public class SignatureController : ControllerBase{
         // }
 
         var targeturl = await _shortUrlService.ShortUrlGenerator(shortUrl);
+        if(!string.IsNullOrWhiteSpace(userId)){
+            await _signService.CreateUser(shortUrl.AppId, shortUrl.UserId);
+        }
+
         return Redirect(targeturl);
     }
 
@@ -82,5 +87,3 @@ public class SignatureController : ControllerBase{
         return dtStart.Add(toNow);
     }
 }
-
-

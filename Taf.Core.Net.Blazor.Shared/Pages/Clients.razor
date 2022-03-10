@@ -1,13 +1,13 @@
 ﻿@page "/clients"
 @using Taf.Core.Net.Tools.Domain.Share
 @using Taf.Core.Net.Tools.Domain
-@attribute [TabItemOption(Text = "客户端管理")]
-<PageTitle>客户端</PageTitle>
+@attribute [TabItemOption(Text = "应用管理")]
+<PageTitle>应用</PageTitle>
 <Table TItem="SignClientDto" IsPagination="true" PageItemsSource="PageItemsSource" 
-       IsStriped="true" IsBordered="true" ShowSkeleton="true"  ClickToSelect="true" ShowExtendButtons="true"
+       IsStriped="true" IsBordered="true" ShowSkeleton="true"  ClickToSelect="true" ShowExtendButtons="true" ShowEmpty="true"
        ShowToolbar="true" ShowSearch="true" ShowLineNo="true"  ShowEditButton="false"  ShowAdvancedSearch="false"
        ShowDeleteButton="true" OnDeleteAsync="@OnDeleteAsync" OnQueryAsync="@OnSearchQueryAsync"  OnAddAsync="@OnAddAsync"
-       OnSaveAsync="@OnSaveAsync">
+       OnSaveAsync="@OnSaveAsync" AddModalTitle="新增应用">
     <TableColumns>
         <TableColumn @bind-Field="@context.Name"  Width="100"/>
         <TableColumn @bind-Field="@context.AppId" IsReadonlyWhenAdd="true"/>

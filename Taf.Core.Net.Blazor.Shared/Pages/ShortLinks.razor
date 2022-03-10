@@ -3,14 +3,15 @@
 @attribute [TabItemOption(Text = "短链")]
 <PageTitle>短链</PageTitle>
 <Table TItem="ShortUrlListDto" IsPagination="true" PageItemsSource="PageItemsSource"
-       IsStriped="true" IsBordered="true" ShowSkeleton="true" IsMultipleSelect="true" 
+       IsStriped="true" IsBordered="true" ShowSkeleton="true" ShowEmpty="true"
        ShowToolbar="true" ShowSearch="true" ShowLineNo="true" ShowAddButton="false" ShowEditButton="false" ShowDeleteButton="false" ShowAdvancedSearch="false"
        OnQueryAsync="@OnSearchQueryAsync">
     <TableColumns>
         <TableColumn @bind-Field="@context.Source"  Width="150"/>
         <TableColumn @bind-Field="@context.ShortCode"  Width="100"/>
-        <TableColumn @bind-Field="@context.OriginalUrl" TextEllipsis="true"/>
-        <TableColumn @bind-Field="@context.Targeturl" Width="180" TextEllipsis="true"/>
+        <TableColumn @bind-Field="@context.OriginalUrl" TextWrap="true"/>
+        <TableColumn @bind-Field="@context.Targeturl" Width="150" TextWrap="true"/>
+        <TableColumn @bind-Field="@context.CallBack" Width="180" TextWrap="true"/>
         <TableColumn @bind-Field="@context.ExpirationDate" Width="130" />
         <TableColumn @bind-Field="@context.CreationTime" Width="130" />
     </TableColumns>

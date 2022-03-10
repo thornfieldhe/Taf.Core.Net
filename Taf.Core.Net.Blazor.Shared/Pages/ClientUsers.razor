@@ -1,0 +1,16 @@
+﻿@page "/clientUsers"
+@using Taf.Core.Net.Tools.Domain.Share
+@using Taf.Core.Net.Tools.Domain
+@attribute [TabItemOption(Text = "终端用户管理")]
+<PageTitle>终端用户</PageTitle>
+<Table TItem="SignUserDto" IsPagination="true" PageItemsSource="PageItemsSource"
+       IsStriped="true" IsBordered="true" ShowSkeleton="true" ClickToSelect="true"  ShowEmpty="true"
+       ShowToolbar="true" ShowSearch="true" ShowLineNo="true"  ShowAdvancedSearch="false" 
+       ShowDefaultButtons="false" OnQueryAsync="@OnSearchQueryAsync">
+    <TableColumns>
+        <TableColumn @bind-Field="@context.AppId" Width="120"/>
+        <TableColumn @bind-Field="@context.UserId"  Width="180"/>
+        <TableColumn @bind-Field="@context.CreationTime" Width="130"/>
+        <TableColumn @bind-Field="@context.Note" Width="250"/>
+    </TableColumns>
+</Table>

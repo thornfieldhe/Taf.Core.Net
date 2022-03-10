@@ -17,7 +17,7 @@ public class ShorUrlCreateDto{
     public string? UserId{ get; set; }
 
     /// <summary>
-    /// 客户端来源
+    /// 应用来源
     /// </summary>
     public SignClientSource Source{ get; set; }
 

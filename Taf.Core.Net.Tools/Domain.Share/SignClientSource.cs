@@ -5,7 +5,7 @@
 namespace Taf.Core.Net.Tools.Domain.Share;
 
 /// <summary>
-/// 客户端来源
+/// 应用来源
 /// </summary>
 public enum SignClientSource{
     Aliyun
