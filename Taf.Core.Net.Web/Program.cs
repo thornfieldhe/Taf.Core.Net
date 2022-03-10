@@ -48,6 +48,7 @@ app.UseSwaggerUI(c =>
     c.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None); //折叠Api
     c.DefaultModelsExpandDepth(-1);                                     //去除Model 显示
 });
+
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
 app.UseEndpoints(endpoints =>

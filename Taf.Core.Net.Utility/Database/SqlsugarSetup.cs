@@ -33,15 +33,14 @@ public static class SqlsugarSetup{
         this IServiceCollection services, IConfiguration configuration,
         string                  dbName = "MainConnection"){
         var sqlSugar = new SqlSugarScope(
-            new ConnectionConfig(){
-                DbType                = SqlSugar.DbType.MySql
-              , ConnectionString      = configuration.GetConnectionString(dbName)
-              , IsAutoCloseConnection = true
-            },
+            new ConnectionConfig(){ DbType = SqlSugar.DbType.MySql, ConnectionString = configuration.GetConnectionString(dbName), IsAutoCloseConnection = true },
             db => {
+                BindQueryFilter(db);
                 //单例参数配置，所有上下文生效
                 db.Aop.OnLogExecuting = (sql, pars) => {
-                    Console.WriteLine(sql); //输出sql
+                    Console.WriteLine(new string('-',10));                                                                     //输出sql
+                    Console.WriteLine("[Debug] Sql: "+sql);                                                                     //输出sql
+                    Console.WriteLine("[Debug] Parameters:"+string.Join("      ", pars.Select(r => $"{r.ParameterName}:{r.Value}"))); //输出sql
                 };
 
                 db.Aop.DataExecuting = (oldValue, entityInfo) => {
@@ -58,38 +57,49 @@ public static class SqlsugarSetup{
                     }
 
                     //insert,update生效        
-                    if(entityInfo.PropertyName  == "ConcurrencyStamp"){
+                    if(entityInfo.PropertyName == "ConcurrencyStamp"){
                         entityInfo.SetValue(Guid.NewGuid().ToString()); //修改时间戳字段
                     }
                 };
             });
-        
-        var    basePath1 = AppContext.BaseDirectory;
-        var    basePath2 =Path.GetDirectoryName(typeof(SqlsugarSetup).Assembly.Location);
- 
-        var identityTypes = Assembly
-                           .LoadFrom(Path.Combine(basePath2,"Taf.Core.Net.Identity.dll"))
-                           .GetTypes().Where(it => it.FullName.Contains("Taf.Core.Net.Identity.Domain") && !it.FullName.Contains("Taf.Core.Net.Identity.Domain.Share"))
-                           .ToList();
-        var toolTypes = Assembly
-                       .LoadFrom(Path.Combine(basePath2,"Taf.Core.Net.Tools.dll"))
-                                     .GetTypes().Where(it => it.FullName.Contains("Taf.Core.Net.Tools.Domain") && !it.FullName.Contains("Taf.Core.Net.Tools.Domain.Share")).ToList();
-        identityTypes.AddRange(toolTypes);
-        var types = identityTypes.Union(toolTypes);
-        // 遍历实体类
-        foreach(var entityType in types){
-            if(typeof(ISoftDelete).IsAssignableFrom(entityType) ){
-                var softDelete = entityType as ISoftDelete;
-                //判断实体类中包含IsDeleted属性
-                //构建动态Lambda
-                var lambda = DynamicExpressionParser.ParseLambda
-                (new[] { Expression.Parameter(entityType, "isDelete") },
-                 typeof(bool), " IsDeleted ==  @0 ",
-                 false);
-                sqlSugar.QueryFilter.Add(new TableFilterItem<object>(entityType, lambda)); //将Lambda传入过滤器
-            }
-        }
+
         services.AddSingleton<ISqlSugarClient>(sqlSugar);
         Console.WriteLine("Complited !");
     }
+
+    private static void BindQueryFilter(ISqlSugarClient db){
+        if(QueryFilters?.Count == 0){
+            lock(_locker){
+                var basePath1 = AppContext.BaseDirectory;
+                var basePath2 = Path.GetDirectoryName(typeof(SqlsugarSetup).Assembly.Location);
+
+                var identityTypes = Assembly
+                                   .LoadFrom(Path.Combine(basePath2, "Taf.Core.Net.Identity.dll"))
+                                   .GetTypes().Where(it => it.FullName.Contains("Taf.Core.Net.Identity.Domain") && !it.FullName.Contains("Taf.Core.Net.Identity.Domain.Share"))
+                                   .ToList();
+                var toolTypes = Assembly
+                               .LoadFrom(Path.Combine(basePath2, "Taf.Core.Net.Tools.dll"))
+                               .GetTypes().Where(it => it.FullName.Contains("Taf.Core.Net.Tools.Domain") && !it.FullName.Contains("Taf.Core.Net.Tools.Domain.Share")).ToList();
+                identityTypes.AddRange(toolTypes);
+                var types = identityTypes.Union(toolTypes);
+                // 遍历实体类
+                foreach(var entityType in types){
+                    if(typeof(ISoftDelete).IsAssignableFrom(entityType)){
+                        var lambda = DynamicExpressionParser.ParseLambda
+                        (new[]{ Expression.Parameter(entityType, "it") },
+                         typeof(bool), $"{nameof(ISoftDelete.IsDeleted)} ==  @0",
+                         false);
+                        QueryFilters.Add(new TableFilterItem<object>(entityType, lambda)); //将Lambda传入过滤器
+                    }
+                }
+            }
+        }
+
+        foreach(var filter in QueryFilters){
+            db.QueryFilter.Add(filter);
+        }
+    }
+
+    private static List<TableFilterItem<object>> QueryFilters = new();
+    private static object                        _locker = new();
 }

@@ -24,7 +24,7 @@ using System;
 
 /// <inheritdoc/>
 [Serializable]
-public abstract class Entity : IEntity,IHasConcurrencyStamp,IHasAuditedTime
+public abstract class Entity : IEntity
 {
 
     public abstract object[] GetKeys();
@@ -86,11 +86,14 @@ public abstract class Entity<TKey> : Entity, IEntity<TKey> where TKey:new()
 /// 实体对象基类
 /// </summary>
 [Serializable]
-public class BaseEntity:Entity<Guid>{
+public class BaseEntity:Entity<Guid>, ISoftDelete{
     public BaseEntity(){
         Id = NewId.NextGuid();
     }
 
     [SugarColumn(IsPrimaryKey = true,ColumnName = "id")]
     public override Guid Id{ get;  set; }
+    
+    [SugarColumn(ColumnName = "is_deleted", IsNullable = false)]
+    public bool IsDeleted{ get; set; }
 }

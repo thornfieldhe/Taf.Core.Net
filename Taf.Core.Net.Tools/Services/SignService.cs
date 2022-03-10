@@ -25,8 +25,10 @@ namespace Taf.Core.Net.Tools.Services;
 using System;
 
 public interface ISignService{
-    Task<bool>                          SignGenerator([NotNull] string name);
-    Task<bool>                          SaveClient(SignClientDto       item);
+    Task<bool> SignGenerator([NotNull] string name);
+    Task<bool> SaveClient(SignClientDto       item);
+    Task<bool> Delete(SignClientDto           dto);
+
     Task<PagedResultDto<SignClientDto>> GetAllList(BaseQueryRequestDto query);
 }
 
@@ -45,10 +47,12 @@ public class SignService : ISignService{
 
     public async Task<bool> SaveClient(SignClientDto item) =>
         await _signClientRepository.UpdateAsync(new SignClient(){ Name = item.Name, Id = item.Id, ConcurrencyStamp = item.ConcurrencyStamp });
-    
+
     public async Task<PagedResultDto<SignClientDto>> GetAllList(BaseQueryRequestDto query){
         return await _signClientRepository.Page<SignClientDto>(query, (s) => string.IsNullOrEmpty(query.KeyWord)
                                                                           || s.Name.Contains(query.KeyWord)
                                                                           || s.AppId.Contains(query.KeyWord));
     }
+
+    public async Task<bool> Delete(SignClientDto dto) => await _signClientRepository.DeleteAsync(new SignClient(){ Id = dto.Id, ConcurrencyStamp = dto.ConcurrencyStamp });
 }

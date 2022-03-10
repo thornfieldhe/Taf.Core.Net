@@ -23,7 +23,7 @@ using System;
 /// <summary>
 /// 客户列表
 /// </summary>
-[SugarTable("tool_sign_clients")]
+[SugarTable("tool_sign_clients",IsDisabledUpdateAll=true)]
 public class SignClient : BaseEntity{
     /// <summary>
     /// 客户端Id

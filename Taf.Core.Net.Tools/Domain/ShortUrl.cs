@@ -48,4 +48,10 @@ public class ShortUrl : BaseEntity{
     /// </summary>
     [SugarColumn(ColumnName = "total_click_count")]
     public long TotalClickCount{ get; set; }
+    
+    /// <summary>
+    /// 数据来源
+    /// </summary>
+    [SugarColumn(ColumnName = "source",ColumnDataType = "nvarchar(36)")]
+    public string Source{ get; set; }
 }

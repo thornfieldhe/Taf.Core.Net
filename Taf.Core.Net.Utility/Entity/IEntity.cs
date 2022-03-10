@@ -8,6 +8,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using System.Collections.Generic;
+using Taf.Core.Net.Auditing;
 
 // 何翔华
 // Taf.Core.Net.Utility
@@ -29,7 +30,7 @@ public interface IEntity<TKey> : IEntity
 /// Defines an entity. It's primary key may not be "Id" or it may have a composite primary key.
 /// Use <see cref="T:Volo.Abp.Domain.Entities.IEntity`1" /> where possible for better integration to repositories and other structures in the framework.
 /// </summary>
-public interface IEntity
+public interface IEntity:IHasConcurrencyStamp,IHasAuditedTime
 {
     /// <summary>Returns an array of ordered keys for this entity.</summary>
     /// <returns></returns>

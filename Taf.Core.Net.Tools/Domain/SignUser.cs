@@ -11,7 +11,7 @@ namespace Taf.Core.Net.Tools.Domain;
 /// <summary>
 /// 签名用户
 /// </summary>
-[SugarTable("tool_sign_users")]
+[SugarTable("tool_sign_users",IsDisabledUpdateAll=true)]
 public class SignUser :BaseEntity{
     /// <summary>
     /// 客户端Id

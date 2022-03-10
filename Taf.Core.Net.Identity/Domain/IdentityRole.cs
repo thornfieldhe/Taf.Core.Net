@@ -24,8 +24,8 @@ using System;
 /// <summary>
 /// 角色
 /// </summary>
-[SugarTable("identity_roles")]
-public class IdentityRole : BaseEntity,  ISoftDelete{
+[SugarTable("identity_roles",IsDisabledUpdateAll=true)]
+public class IdentityRole : BaseEntity{
     
     /// <summary>
     /// 角色名称
@@ -40,9 +40,7 @@ public class IdentityRole : BaseEntity,  ISoftDelete{
     [SugarColumn(ColumnName = "display_name", ColumnDataType = "nvarchar(50)")] 
     [Required]
     public string DisplayName{ get; set; } 
-    
-    [SugarColumn(ColumnName = "is_deleted", IsNullable = false)]
-    public bool IsDeleted{ get; set; }
+
     
     [SugarColumn(ColumnName = "permissions")]
     public ulong Permissions{ get; set; }

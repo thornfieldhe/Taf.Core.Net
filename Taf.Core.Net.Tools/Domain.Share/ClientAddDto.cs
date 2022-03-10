@@ -2,12 +2,11 @@
 // Taf.Core.Net.Blazor.Shared
 // ClientAddUiDto.cs
 
-using Microsoft.AspNetCore.Components;
 using System.ComponentModel.DataAnnotations;
 
-namespace Taf.Core.Net.Blazor.Shared.Data;
+namespace Taf.Core.Net.Tools.Domain.Share;
 
-public class ClientAddUiDto{
+public class ClientAddDto{
     [Display(Name = "应用名称")]
     public string Name{ get; set; }
 }

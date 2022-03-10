@@ -3,17 +3,17 @@
 @using Taf.Core.Net.Tools.Domain
 @attribute [TabItemOption(Text = "客户端管理")]
 <PageTitle>客户端</PageTitle>
-<Table TItem="SignClientDto" IsPagination="true" PageItemsSource="PageItemsSource"
-       IsStriped="true" IsBordered="true" ShowSkeleton="true" IsMultipleSelect="true"
-       ShowToolbar="true" ShowSearch="true" ShowLineNo="true" ShowAddButton="false" ShowEditButton="false" ShowDeleteButton="false" ShowAdvancedSearch="false"
-       OnQueryAsync="@OnSearchQueryAsync">
+<Table TItem="SignClientDto" IsPagination="true" PageItemsSource="PageItemsSource" 
+       IsStriped="true" IsBordered="true" ShowSkeleton="true"  ClickToSelect="true" ShowExtendButtons="true"
+       ShowToolbar="true" ShowSearch="true" ShowLineNo="true" ShowAddButton="false" ShowEditButton="false"  ShowAdvancedSearch="false"
+      ShowDeleteButton="true" OnDeleteAsync="@OnDeleteAsync" OnQueryAsync="@OnSearchQueryAsync"  >
     <TableToolbarTemplate>
         <Button TItem="ClientAddUiDto" Color="Color.Primary" Icon="fa fa-fw fa-plus" Text="新建"  OnClickWithoutRender="@ShowAddDialogAsync"/>
     </TableToolbarTemplate>
     <TableColumns>
-        <TableColumn @bind-Field="@context.Name" Text="客户名称" Width="100"/>
-        <TableColumn @bind-Field="@context.AppId" Text="AppId"/>
-        <TableColumn @bind-Field="@context.AppKey" Width="120" Text="AppKey"/>
-        <TableColumn @bind-Field="@context.CreationTime" Width="130" Text="创建时间"/>
+        <TableColumn @bind-Field="@context.Name"  Width="100"/>
+        <TableColumn @bind-Field="@context.AppId" />
+        <TableColumn @bind-Field="@context.AppKey" Width="150" />
+        <TableColumn @bind-Field="@context.CreationTime" Width="130" />
     </TableColumns>
 </Table>

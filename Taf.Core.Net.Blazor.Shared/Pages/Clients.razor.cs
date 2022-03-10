@@ -39,14 +39,23 @@ public partial class Clients{
     [NotNull]
     private DialogService? DialogService{ get; set; }
 
-    private ClientAddUiDto Model{ get; set; } = new();
+    /// <summary>
+    /// 获得 轻量弹窗注入服务
+    /// </summary>
+    [Inject]
+    [NotNull]
+    private ToastService? ToastService{ get; set; }
+
+    [NotNull]
+    private Toast? Toast{ get; set; }
+
+    private ClientAddDto Model{ get; set; } = new();
 
     /// <summary>
     /// 
     /// </summary>
     private static IEnumerable<int> PageItemsSource => new int[]{ 20, 40 };
 
-    private List<SignClientDto>                 Items                         { get; set; }
     private Task<PagedResultDto<SignClientDto>> GetAllList(string key = null) => SignService.GetAllList(new BaseQueryRequestDto(){ KeyWord = key });
 
     /// <summary>
@@ -54,8 +63,8 @@ public partial class Clients{
     /// </summary>
     protected override void OnInitialized(){
         base.OnInitialized();
-        Items = QueryAll(null, null, 1).Result.Items.ToList();
     }
+
 
     private async Task<PagedResultDto<SignClientDto>> QueryAll(string keyWord, string shorting, int index) =>
         await SignService.GetAllList(new BaseQueryRequestDto(){ KeyWord = keyWord, Sorting = shorting, PageIndex = index });
@@ -65,9 +74,8 @@ public partial class Clients{
 
         // 设置记录总数
         var total = list.TotalCount;
-        Items = list.Items.ToList();
         return new QueryData<SignClientDto>(){
-            Items      = Items
+            Items      = list.Items
           , TotalCount = list.TotalCount
           , IsSorted   = true
           , IsFiltered = true
@@ -76,18 +84,30 @@ public partial class Clients{
     }
 
     private async Task ShowAddDialogAsync(){
-        var option = new EditDialogOption<ClientAddUiDto>(){
-            Title       = "新增应用"
-          , Model       = Model
-          , RowType     = RowType.Inline
-          , Size        = Size.Small
+        var option = new EditDialogOption<ClientAddDto>(){
+            Title   = "新增应用"
+          , Model   = Model
+          , RowType = RowType.Inline
+          , Size    = Size.Small
           , OnEditAsync = async (context) => {
-                var result= await SignService.SignGenerator(Model.Name);
-                Items = QueryAll(null, null, 1).Result.Items.ToList();
+                var result = await SignService.SignGenerator(Model.Name);
+                await OnSearchQueryAsync(new QueryPageOptions());
                 return result;
             }
         };
         await DialogService.ShowEditDialog(option);
-     
+    }
+
+    private async Task<bool> OnDeleteAsync(IEnumerable<SignClientDto> arg){
+        var item = arg.FirstOrDefault();
+        if(item == null){
+            Toast.SetPlacement(Placement.BottomEnd);
+            await ToastService.Show(new ToastOption(){ Category = ToastCategory.Warning, Title = "警告通知", Content = "未选择客户" });
+            return false;
+        } else{
+            var result = await SignService.Delete(new SignClientDto(){ Id = item.Id, ConcurrencyStamp = item.ConcurrencyStamp });
+            await OnSearchQueryAsync(new QueryPageOptions());
+            return result;
+        }
     }
 }

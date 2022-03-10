@@ -25,8 +25,8 @@ using System;
 /// <summary>
 /// 用户信息
 /// </summary>
-[SugarTable("identity_users")]
-public class IdentityUser : BaseEntity, IPassivable, ISoftDelete{
+[SugarTable("identity_users",IsDisabledUpdateAll=true)]
+public class IdentityUser : BaseEntity, IPassivable{
     /// <summary>
     /// 账号
     /// </summary>
@@ -109,8 +109,4 @@ public class IdentityUser : BaseEntity, IPassivable, ISoftDelete{
     /// </summary>
     [SugarColumn(ColumnName = "is_active", IsNullable = false)]
     public bool IsActive{ get; set; }
-
-    [SugarColumn(ColumnName = "is_deleted", IsNullable = false)]
-    public bool IsDeleted{ get; set; }
-
 }
