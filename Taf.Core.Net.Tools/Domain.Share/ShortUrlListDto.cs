@@ -29,13 +29,8 @@ public record ShortUrlListDto{
     /// 过期时间,为空则一直有效
     /// </summary>
     [Display(Name = "过期时间")]
-    public DateTime? ExpiraionDate{ get; set; }
+    public DateTime? ExpirationDate{ get; set; }
 
-    /// <summary>
-    /// 短链点击次数
-    /// </summary>
-    [Display(Name = "短链点击次数")]
-    public long TotalClickCount{ get; set; }
 
     [Display(Name = "创建时间")]
     public DateTime CreationTime{ get; set; }
@@ -46,4 +41,16 @@ public record ShortUrlListDto{
     [Display(Name = "数据来源")]
     [Required]
     public string Source{ get; set; }
+    
+    /// <summary>
+    /// 回调地址
+    /// </summary>
+    [Display(Name = "回调地址")]
+    public string CallBack{ get; set; }
+    
+    /// <summary>
+    /// 目标地址
+    /// </summary>
+    [Display(Name = "目标地址")]
+    public string Targeturl{ get; set; }
 }

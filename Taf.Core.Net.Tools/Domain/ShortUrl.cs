@@ -9,7 +9,7 @@ namespace Taf.Core.Net.Tools.Domain;
 /// <summary>
 /// 短链
 /// </summary>
-[SugarTable("tool_short_urls")]
+[SugarTable("tool_short_urls",IsDisabledUpdateAll=true)]
 public class ShortUrl : BaseEntity{
 
     private string _originalUrl;
@@ -29,6 +29,24 @@ public class ShortUrl : BaseEntity{
     [SugarColumn(ColumnName = "normalized_original_url",ColumnDataType = "nvarchar(2000)")]
     [Required]
     public string NormalizedOriginalUrl{ get; set; }
+    
+    private string _targeturl;
+    /// <summary>
+    /// 目标地址
+    /// </summary>
+    [SugarColumn(ColumnName = "target_url", ColumnDataType = "nvarchar(2000)")]
+    [Required]
+    public string Targeturl{
+        get => _targeturl;
+        set{
+            NormalizedTargeturl = value.ToUpper();
+            _targeturl          = value;
+        }
+    }
+    
+    [SugarColumn(ColumnName = "normalized_target_url",ColumnDataType = "nvarchar(2000)")]
+    [Required]
+    public string NormalizedTargeturl{ get; set; }
 
     /// <summary>
     /// 短码
@@ -41,7 +59,7 @@ public class ShortUrl : BaseEntity{
     /// 过期时间,为空则一直有效
     /// </summary>
     [SugarColumn(ColumnName = "expiraion_date")]
-    public DateTime? ExpiraionDate{ get; set; }
+    public DateTime? ExpirationDate{ get; set; }
 
     /// <summary>
     /// 短链点击次数
@@ -54,4 +72,10 @@ public class ShortUrl : BaseEntity{
     /// </summary>
     [SugarColumn(ColumnName = "source",ColumnDataType = "nvarchar(36)")]
     public string Source{ get; set; }
+    
+    /// <summary>
+    /// 回调地址
+    /// </summary>
+    [SugarColumn(ColumnName = "callback",ColumnDataType = "nvarchar(1000)")]
+    public string CallBack{ get; set; }
 }

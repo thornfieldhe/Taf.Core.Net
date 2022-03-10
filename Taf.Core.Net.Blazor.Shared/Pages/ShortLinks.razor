@@ -9,9 +9,9 @@
     <TableColumns>
         <TableColumn @bind-Field="@context.Source"  Width="150"/>
         <TableColumn @bind-Field="@context.ShortCode"  Width="100"/>
-        <TableColumn @bind-Field="@context.OriginalUrl" />
-        <TableColumn @bind-Field="@context.TotalClickCount" Width="80" />
-        <TableColumn @bind-Field="@context.ExpiraionDate" Width="130" />
+        <TableColumn @bind-Field="@context.OriginalUrl" TextEllipsis="true"/>
+        <TableColumn @bind-Field="@context.Targeturl" Width="180" TextEllipsis="true"/>
+        <TableColumn @bind-Field="@context.ExpirationDate" Width="130" />
         <TableColumn @bind-Field="@context.CreationTime" Width="130" />
     </TableColumns>
 </Table>

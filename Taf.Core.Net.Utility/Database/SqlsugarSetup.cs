@@ -38,7 +38,7 @@ public static class SqlsugarSetup{
                 BindQueryFilter(db);
                 //单例参数配置，所有上下文生效
                 db.Aop.OnLogExecuting = (sql, pars) => {
-                    Console.WriteLine(new string('-',10));                                                                     //输出sql
+                    Console.WriteLine(new string('-',100));                                                                     //输出sql
                     Console.WriteLine("[Debug] Sql: "+sql);                                                                     //输出sql
                     Console.WriteLine("[Debug] Parameters:"+string.Join("      ", pars.Select(r => $"{r.ParameterName}:{r.Value}"))); //输出sql
                 };
@@ -47,13 +47,13 @@ public static class SqlsugarSetup{
                     //inset生效
                     if(entityInfo.PropertyName  == "CreationTime"
                     && entityInfo.OperationType == DataFilterType.InsertByObject){
-                        entityInfo.SetValue(DateTime.UtcNow); //修改CreateTime字段
+                        entityInfo.SetValue(DateTime.Now); //修改CreateTime字段
                     }
 
                     //update生效        
                     if(entityInfo.PropertyName  == "LastModificationTime"
                     && entityInfo.OperationType == DataFilterType.UpdateByObject){
-                        entityInfo.SetValue(DateTime.UtcNow); //修改UpdateTime字段
+                        entityInfo.SetValue(DateTime.Now); //修改UpdateTime字段
                     }
 
                     //insert,update生效        

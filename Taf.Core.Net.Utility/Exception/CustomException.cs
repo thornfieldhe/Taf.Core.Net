@@ -29,7 +29,7 @@ public class CustomException : Exception{
 
     public string Details{ get; set; }
 
-    public CustomException([NotNull] string message, string details, Guid code) : base(message){
+    public CustomException([NotNull] string message, Guid code, string? details =null) : base(message){
         Code    = Code;
         Details = details;
     }

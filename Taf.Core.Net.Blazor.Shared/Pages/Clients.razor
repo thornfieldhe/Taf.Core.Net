@@ -5,15 +5,13 @@
 <PageTitle>客户端</PageTitle>
 <Table TItem="SignClientDto" IsPagination="true" PageItemsSource="PageItemsSource" 
        IsStriped="true" IsBordered="true" ShowSkeleton="true"  ClickToSelect="true" ShowExtendButtons="true"
-       ShowToolbar="true" ShowSearch="true" ShowLineNo="true" ShowAddButton="false" ShowEditButton="false"  ShowAdvancedSearch="false"
-      ShowDeleteButton="true" OnDeleteAsync="@OnDeleteAsync" OnQueryAsync="@OnSearchQueryAsync"  >
-    <TableToolbarTemplate>
-        <Button TItem="ClientAddUiDto" Color="Color.Primary" Icon="fa fa-fw fa-plus" Text="新建"  OnClickWithoutRender="@ShowAddDialogAsync"/>
-    </TableToolbarTemplate>
+       ShowToolbar="true" ShowSearch="true" ShowLineNo="true"  ShowEditButton="false"  ShowAdvancedSearch="false"
+       ShowDeleteButton="true" OnDeleteAsync="@OnDeleteAsync" OnQueryAsync="@OnSearchQueryAsync"  OnAddAsync="@OnAddAsync"
+       OnSaveAsync="@OnSaveAsync">
     <TableColumns>
         <TableColumn @bind-Field="@context.Name"  Width="100"/>
-        <TableColumn @bind-Field="@context.AppId" />
-        <TableColumn @bind-Field="@context.AppKey" Width="150" />
-        <TableColumn @bind-Field="@context.CreationTime" Width="130" />
+        <TableColumn @bind-Field="@context.AppId" IsReadonlyWhenAdd="true"/>
+        <TableColumn @bind-Field="@context.AppKey" Width="150" IsReadonlyWhenAdd="true" />
+        <TableColumn @bind-Field="@context.CreationTime" Width="130"  IsReadonlyWhenAdd="true"/>
     </TableColumns>
 </Table>

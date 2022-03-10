@@ -25,10 +25,12 @@ using System;
 
 public interface IRepository<T> where T : BaseEntity, new(){
     ISqlSugarClient GetDbContex();
-    Task<T>         FindAsync(Guid                       id);
-    Task<int>       CountAsync(Expression<Func<T, bool>> whereExpression);
-    Task<bool>      InsertAsync(T                        item);
+    Task<T>         FindAsync(Guid id);
 
+    Task<T>   FirstOrDefaultAsync(Expression<Func<T, bool>> whereExpression);
+    Task<int> CountAsync(Expression<Func<T, bool>>     whereExpression);
+
+    Task<bool> InsertAsync(T item);
     Task<bool> UpdateAsync(T item);
     Task<bool> DeleteAsync(T item);
 
@@ -49,7 +51,8 @@ public class Repository<T> : IRepository<T> where T : BaseEntity, new(){
 
 #region query
 
-    public virtual async Task<T> FindAsync(Guid id) => await _db.Queryable<T>().InSingleAsync(id);
+    public virtual async Task<T> FindAsync(Guid                           id)              => await _db.Queryable<T>().InSingleAsync(id);
+    public virtual async Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> whereExpression) => await _db.Queryable<T>().FirstAsync(whereExpression);
 
     public virtual async Task<PagedResultDto<TR>> Page<TR>(PagedAndSortedResultRequestDto query, Expression<Func<T, bool>> whereExpression){
         RefAsync<int> total = 0;

@@ -11,7 +11,7 @@ using Taf.Core;
 
 var db = new SqlSugarClient(new ConnectionConfig()
 {
-    ConnectionString      = "Server=192.168.10.155;Database=taf_core_net;Uid=root;Pwd=IKEqwe123;Allow User Variables=true;charset=utf8mb4;Default Command Timeout=120;",
+    ConnectionString      = "Server=127.0.0.1;Database=taf_core_net;Uid=root;Pwd=IKEqwe123;Allow User Variables=true;charset=utf8mb4;Default Command Timeout=120;",
     DbType                = DbType.MySql, //必填   
     IsAutoCloseConnection = true
   , ConfigureExternalServices = new ConfigureExternalServices{

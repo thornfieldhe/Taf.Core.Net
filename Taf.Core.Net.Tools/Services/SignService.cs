@@ -13,6 +13,7 @@ using System.Diagnostics.CodeAnalysis;
 using Taf.Core.Net.Tools.Domain;
 using Taf.Core.Net.Tools.Domain.Share;
 using Taf.Core.Net.Utility.Database;
+using Taf.Core.Net.Utility.Exception;
 using Taf.Core.Net.Utility.Paging;
 using Taf.Core.Utility;
 
@@ -25,9 +26,10 @@ namespace Taf.Core.Net.Tools.Services;
 using System;
 
 public interface ISignService{
-    Task<bool> SignGenerator([NotNull] string name);
-    Task<bool> SaveClient(SignClientDto       item);
-    Task<bool> Delete(SignClientDto           dto);
+    Task<bool>   SignGenerator([NotNull] string name);
+    Task<bool>   SaveClient(SignClientDto       item);
+    Task<bool>   Delete(SignClientDto           dto);
+    Task<string> GetAppKeyById([NotNull] string appId);
 
     Task<PagedResultDto<SignClientDto>> GetAllList(BaseQueryRequestDto query);
 }
@@ -52,6 +54,10 @@ public class SignService : ISignService{
         return await _signClientRepository.Page<SignClientDto>(query, (s) => string.IsNullOrEmpty(query.KeyWord)
                                                                           || s.Name.Contains(query.KeyWord)
                                                                           || s.AppId.Contains(query.KeyWord));
+    }
+
+    public async Task<string?> GetAppKeyById([NotNull] string appId){
+        return (await _signClientRepository.FirstOrDefaultAsync(r => r.AppId == appId.Trim()))?.AppKey;
     }
 
     public async Task<bool> Delete(SignClientDto dto) => await _signClientRepository.DeleteAsync(new SignClient(){ Id = dto.Id, ConcurrencyStamp = dto.ConcurrencyStamp });

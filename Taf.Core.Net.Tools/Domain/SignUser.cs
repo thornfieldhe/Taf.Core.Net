@@ -18,7 +18,7 @@ public class SignUser :BaseEntity{
     /// </summary>
     [Required]
     [SugarColumn(IsPrimaryKey = true, ColumnName = "app_id", ColumnDataType = "char(36)", IndexGroupNameList = new string[]{ "app_id" })]
-    public Guid AppId{ get; set; }
+    public string AppId{ get; set; }
     
     [Required]
     [SugarColumn( ColumnName = "user_id", ColumnDataType = "nvarchar(50)")]

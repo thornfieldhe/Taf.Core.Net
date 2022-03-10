@@ -83,21 +83,6 @@ public partial class Clients{
         };
     }
 
-    private async Task ShowAddDialogAsync(){
-        var option = new EditDialogOption<ClientAddDto>(){
-            Title   = "新增应用"
-          , Model   = Model
-          , RowType = RowType.Inline
-          , Size    = Size.Small
-          , OnEditAsync = async (context) => {
-                var result = await SignService.SignGenerator(Model.Name);
-                await OnSearchQueryAsync(new QueryPageOptions());
-                return result;
-            }
-        };
-        await DialogService.ShowEditDialog(option);
-    }
-
     private async Task<bool> OnDeleteAsync(IEnumerable<SignClientDto> arg){
         var item = arg.FirstOrDefault();
         if(item == null){
@@ -105,9 +90,16 @@ public partial class Clients{
             await ToastService.Show(new ToastOption(){ Category = ToastCategory.Warning, Title = "警告通知", Content = "未选择客户" });
             return false;
         } else{
-            var result = await SignService.Delete(new SignClientDto(){ Id = item.Id, ConcurrencyStamp = item.ConcurrencyStamp });
-            await OnSearchQueryAsync(new QueryPageOptions());
-            return result;
+            return await SignService.Delete(new SignClientDto(){ Id = item.Id, ConcurrencyStamp = item.ConcurrencyStamp });
         }
+    }
+
+    private Task<SignClientDto> OnAddAsync() => Task.FromResult(new SignClientDto());
+
+    private async Task<bool> OnSaveAsync(SignClientDto item, ItemChangedType changedType){
+        if (changedType == ItemChangedType.Add){
+           return await SignService.SignGenerator(item.Name);
+        }
+        return false;
     }
 }

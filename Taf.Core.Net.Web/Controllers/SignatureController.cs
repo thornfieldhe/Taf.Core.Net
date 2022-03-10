@@ -2,9 +2,15 @@
 // Taf.Core.Net.Web
 // Home.cs
 
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using SqlSugar;
+using SshNet.Security.Cryptography;
+using System.Diagnostics.CodeAnalysis;
+using Taf.Core.Net.Tools.Domain;
+using Taf.Core.Net.Tools.Domain.Share;
 using Taf.Core.Net.Tools.Services;
+using Taf.Core.Utility;
 
 namespace Taf.Core.Net.Web.Controllers;
 
@@ -14,21 +20,67 @@ namespace Taf.Core.Net.Web.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 public class SignatureController : ControllerBase{
+    private readonly IConfiguration   _configuration;
     private readonly IShortUrlService _shortUrlService;
+    private readonly ISignService     _signService;
 
     // GET
-    public SignatureController( IShortUrlService shortUrlService){
+    public SignatureController(
+        IConfiguration   configuration
+      , IShortUrlService shortUrlService
+      , ISignService     signService){
+        _configuration   = configuration;
         _shortUrlService = shortUrlService;
+        _signService     = signService;
     }
 
     [HttpGet]
-    [Route("api/signature/")]
-    public async Task<string> Get(string appKey,string userId,long timestamp ){
-      return await _shortUrlService.ShortUrlGenerator("https://www.baidu.com");
-     
+    [Route("auth/")]
+    public async Task<IActionResult> Get(string appId, string? userId, string timestamp, string sign, string? callback){
+        if(string.IsNullOrWhiteSpace(appId)
+        || string.IsNullOrWhiteSpace(timestamp)
+        || string.IsNullOrWhiteSpace(sign)){
+            return new UnauthorizedResult(); //参数缺失
+        }
+
+        var shortUrl = new ShorUrlCreateDto(){
+            Callback  = callback
+          , Source    = SignClientSource.Aliyun
+          , AppId     = appId.Replace("-","")
+          , SourceUrl = HttpContext.Request.GetEncodedUrl()
+          , TargetUrl = _configuration["ShortCode:Prefix"]
+          , UserId    = userId
+        };
+
+        var appKey = await _signService.GetAppKeyById(appId.Trim());
+        if(appKey == null){
+            return new UnauthorizedResult(); //未找到客户 
+        }
+
+        if(sign != Encrypt.Md5By16($"{appKey}{timestamp.Trim()}{userId?.Trim() ?? string.Empty}")){
+            return new UnauthorizedResult(); //鉴权失败
+        }
+
+        // var date = ConvertStringToDateTime(timestamp);
+        // if(date.AddHours(1) < DateTime.Now){
+        //     return new UnauthorizedResult(); //时间过期
+        // }
+
+        var targeturl = await _shortUrlService.ShortUrlGenerator(shortUrl);
+        return Redirect(targeturl);
+    }
+
+    /// <summary>
+    /// 获取Java 13位时间戳转DateTime
+    /// </summary>
+    /// <param name="timeStamp"></param>
+    /// <returns></returns>
+    private DateTime ConvertStringToDateTime(string timeStamp){
+        var dtStart = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
+        var lTime   = long.Parse(timeStamp + "0000");
+        var toNow   = new TimeSpan(lTime);
+        return dtStart.Add(toNow);
     }
 }
 
-public class CallbackAddress{
-    public string AppKey{ get; set; }
-}
+

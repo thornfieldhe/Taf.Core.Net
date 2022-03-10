@@ -76,7 +76,7 @@ public class UserService{
            ,{ "phoneNum", user.PhoneNum }
            ,{ "emailAddress", user.EmailAddress }
            ,{ "accountName", user.AccountName }
-           ,{ "exp", DateTimeOffset.UtcNow.AddHours(1).ToUnixTimeSeconds() }
+           ,{ "exp", DateTimeOffset.Now.AddHours(1).ToUnixTimeSeconds() }
            ,{ "iss", "thornfield" }
         };
         const string secret     = "GQDstcKsx0NHjPOuXOYg5MbeJ1XT0uFiwDVvVBrk";
