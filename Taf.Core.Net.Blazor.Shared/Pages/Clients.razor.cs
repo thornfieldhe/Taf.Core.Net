@@ -59,7 +59,7 @@ public partial class Clients{
     private async Task<bool> OnDeleteAsync(IEnumerable<SignClientDto> arg){
         foreach(var item in arg){
             await SignService.Delete(new SignClientDto(){ Id = item.Id, ConcurrencyStamp = item.ConcurrencyStamp });
-            await SignService.DeleteAllUsers(item.AppId);
+            await SignService.DeleteAllUsers(item.AppId.Replace("-",""));
         }
 
         return true;
