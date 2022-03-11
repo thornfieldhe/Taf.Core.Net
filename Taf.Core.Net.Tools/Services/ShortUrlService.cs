@@ -7,6 +7,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using EfootprintV3.Database.Domain;
+using EfootprintV3.Database.Domain.Share;
 using SqlSugar;
 using System.Collections.Generic;
 using System.Data.HashFunction.MurmurHash;
@@ -30,10 +32,16 @@ using System;
 /// 短链服务
 /// </summary>
 public class ShortUrlService : IShortUrlService{
-    private readonly IRepository<ShortUrl> _shortUrlRepository;
-    public ShortUrlService(IRepository<ShortUrl> shortUrlRepository) => _shortUrlRepository = shortUrlRepository;
+    private readonly IRepository<ShortUrl>          _shortUrlRepository;
+    private readonly IRepository<UserWithShortCode> _userWithShortCodeRepository;
 
-    public async Task<string> ShortUrlGenerator(ShorUrlCreateDto input){
+    public ShortUrlService(IRepository<ShortUrl> shortUrlRepository
+                          ,IRepository<UserWithShortCode> userWithShortCodeRepository){
+        _shortUrlRepository               = shortUrlRepository;
+        _userWithShortCodeRepository = userWithShortCodeRepository;
+    }
+
+    public async Task<(string TargetUrl,string ShortCode)> ShortUrlGenerator(ShorUrlCreateDto input){
         var code      = GethashCode(input.SourceUrl);
         if(await _shortUrlRepository.CountAsync(r => r.ShortCode == code && (r.ExpirationDate == null || r.ExpirationDate > DateTime.Now)) > 0){
             input.SourceUrl = $"{input.SourceUrl}&d={DateTimeOffset.Now.ToUnixTimeSeconds()}";
@@ -49,7 +57,7 @@ public class ShortUrlService : IShortUrlService{
                                                     , CallBack        = input.Callback
                                                     , Targeturl       = targetUrl
                                                   });
-            return targetUrl;
+            return (targetUrl,code);
         }
     }
 
@@ -58,6 +66,14 @@ public class ShortUrlService : IShortUrlService{
                                                                           || s.OriginalUrl.Contains(query.KeyWord)
                                                                           || s.ShortCode.Contains(query.KeyWord));
     }
+    
+    /// <summary>
+    /// 创建用户调用结构
+    /// </summary>
+    public async Task CreatUserCallingInfo(UserWithShortCodeDto user) =>
+        await _userWithShortCodeRepository.InsertAsync(new UserWithShortCode(){
+            AppId = user.AppId, ExpirationDate = user.ExpirationDate, ShortCode = user.ShortCode.Trim(), UserId = user.UserId.Trim()
+        });
     
     private string GethashCode(string code){
         var srcBytes = Encoding.UTF8.GetBytes(code);

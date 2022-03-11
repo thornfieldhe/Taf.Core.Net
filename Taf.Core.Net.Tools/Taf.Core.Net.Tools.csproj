@@ -7,6 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\EfootprintV3.Database\EfootprintV3.Database.csproj" />
       <ProjectReference Include="..\Taf.Core.Net.Utility\Taf.Core.Net.Utility.csproj" />
     </ItemGroup>
 

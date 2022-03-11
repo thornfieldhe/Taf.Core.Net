@@ -17,7 +17,7 @@ public class SignUser :BaseEntity{
     /// 应用Id
     /// </summary>
     [Required]
-    [SugarColumn(IsPrimaryKey = true, ColumnName = "app_id", ColumnDataType = "char(36)", IndexGroupNameList = new string[]{ "app_id" })]
+    [SugarColumn( ColumnName = "app_id", ColumnDataType = "char(36)", IndexGroupNameList = new string[]{ "app_id" })]
     public string AppId{ get; set; }
     
     [Required]

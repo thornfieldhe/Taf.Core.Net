@@ -18,6 +18,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\EfootprintV3.Database\EfootprintV3.Database.csproj" />
       <ProjectReference Include="..\Taf.Core.Net.Blazor.Shared\Taf.Core.Net.Blazor.Shared.csproj" />
       <ProjectReference Include="..\Taf.Core.Net.Identity\Taf.Core.Net.Identity.csproj" />
       <ProjectReference Include="..\Taf.Core.Net.Tools\Taf.Core.Net.Tools.csproj" />

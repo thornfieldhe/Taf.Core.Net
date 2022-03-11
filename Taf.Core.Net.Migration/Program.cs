@@ -29,18 +29,18 @@ var db = new SqlSugarClient(new ConnectionConfig()
     }
 });
 var identityTypes = Assembly
-              .LoadFrom("*.dll") 
-              .GetTypes().Where(it => it.FullName.Contains(".Domain")&& !it.FullName.Contains(".Domain.Share")).ToList();
-// var toolTypes = Assembly
-//                    .LoadFrom("Taf.Core.Net.Tools.dll") 
-//                    .GetTypes().Where(it => it.FullName.Contains("Taf.Core.Net.Tools.Domain") 
-//                                         && !it.FullName.Contains("Taf.Core.Net.Tools.Domain.Share")).ToList();
-// var businessType = Assembly
-//                    .LoadFrom("EfootprintV3.Database.dll") 
-//                    .GetTypes().Where(it => it.FullName.Contains("EfootprintV3.Database.Domain") 
-//                                         && !it.FullName.Contains("EfootprintV3.Database.Domain.Share")).ToList();
- // identityTypes.AddRange(toolTypes);
- // identityTypes.AddRange(businessType);
+              .LoadFrom("Taf.Core.Net.Identity.dll") 
+              .GetTypes().Where(it => it.FullName.Contains("Taf.Core.Net.Identity.Domain")&& !it.FullName.Contains("Taf.Core.Net.Identity.Domain.Share")).ToList();
+var toolTypes = Assembly
+                   .LoadFrom("Taf.Core.Net.Tools.dll") 
+                   .GetTypes().Where(it => it.FullName.Contains("Taf.Core.Net.Tools.Domain") 
+                                        && !it.FullName.Contains("Taf.Core.Net.Tools.Domain.Share")).ToList();
+var businessType = Assembly
+                   .LoadFrom("EfootprintV3.Database.dll") 
+                   .GetTypes().Where(it => it.FullName.Contains("EfootprintV3.Database.Domain") 
+                                        && !it.FullName.Contains("EfootprintV3.Database.Domain.Share")).ToList();
+ identityTypes.AddRange(toolTypes);
+ identityTypes.AddRange(businessType);
 db.CodeFirst.SetStringDefaultLength(200).InitTables(identityTypes.ToArray());
 
 Console.WriteLine("Complited !");
