@@ -47,7 +47,7 @@ public class SignService : ISignService{
         await _signClientRepository.UpdateAsync(new SignClient(){ Name = item.Name, Id = item.Id, ConcurrencyStamp = item.ConcurrencyStamp });
 
     public async Task<PagedResultDto<SignUserDto>> GetAllUserList(BaseQueryRequestDto query) => await _signUserRepository.Page<SignUserDto>(query, (s) => string.IsNullOrEmpty(query.KeyWord)
-     || s.AppId==query.KeyWord.Trim());
+     || s.UserId.Contains(query.KeyWord.Trim()));
 
     public async Task<PagedResultDto<SignClientDto>> GetAllList(BaseQueryRequestDto query){
         return await _signClientRepository.Page<SignClientDto>(query, (s) => string.IsNullOrEmpty(query.KeyWord)
